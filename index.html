@@ -139,6 +139,35 @@
     padding: 2rem 3rem 8rem;
   }
 
+	/* VIDEO DOCUMENTATION BUTTON */
+  .doc-video-wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 3rem;
+  }
+  .btn-video {
+    background: var(--pop-red);
+    color: #fff;
+    border: var(--border-width) solid var(--border-color);
+    padding: 0.8rem 2.5rem;
+    border-radius: 8px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 6px 6px 0px var(--border-color);
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .btn-video:hover {
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0px var(--border-color);
+    background: var(--pop-yellow);
+    color: var(--text-main);
+  }
+	
   .filter-bar {
     display: flex;
     gap: 1rem;
