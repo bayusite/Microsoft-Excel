@@ -51,6 +51,8 @@
   ::-webkit-scrollbar-thumb { background: var(--pop-green); border: var(--border-width) solid var(--border-color); border-radius: 0px; }
 
   .font-mono { font-family: 'Space Mono', monospace; }
+  /* Mencegah link menjadi biru bawaan browser */
+  a { text-decoration: none; color: inherit; }
 
   /* NAV */
   nav {
@@ -285,23 +287,22 @@
   .card:nth-child(6n+11) .sticker { background: var(--pop-red); transform: rotate(-8deg); }
   .card:nth-child(6n+12) .sticker { background: var(--pop-red); transform: rotate(5deg); }
 
-  /* TOMBOL AKSI BAWAH (MENDUKUNG BUTTON DAN LINK/A) */
+ /* TOMBOL AKSI BAWAH (MENDUKUNG BUTTON DAN LINK/A) */
   .card-actions {
     display: flex;
-    flex-direction: row; /* Memaksa posisinya selalu bersebelahan */
+    flex-direction: row; 
     justify-content: flex-start;
-    flex-wrap: nowrap; /* Mencegah tombol jatuh ke bawah */
+    flex-wrap: nowrap; 
     gap: 10px;
-    padding: 1.2rem 1.5rem; /* Padding disesuaikan sedikit agar lega */
+    padding: 1.2rem 1.5rem; 
     border-top: var(--border-width) solid var(--border-color);
     background: #f8fafc;
     border-radius: 0 0 calc(var(--radius-md) - 3px) calc(var(--radius-md) - 3px);
   }
   
-  /* Gaya ini menargetkan tag <button> dan tag <a> agar bentuknya sama persis */
   .card-actions button,
   .card-actions a.btn-action {
-    flex: 1; /* Trik agar kedua tombol otomatis berbagi lebar sama rata ke samping */
+    flex: 1; 
     background: var(--card-bg);
     color: var(--text-main);
     border: 2px solid var(--border-color);
@@ -317,8 +318,8 @@
     align-items: center;
     justify-content: center;
     gap: 6px;
-    text-decoration: none; /* Menghilangkan garis bawah browser */
-    white-space: nowrap; /* Memastikan teks tidak putus ke bawah */
+    text-decoration: none; 
+    white-space: nowrap; 
   }
   
   .card-actions button:hover,
