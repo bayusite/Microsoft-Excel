@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Portofolio Data — Excel & Analytics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Background & Text */
+    --bg-paper: #f4f4f0;
+    --card-bg: #ffffff;
+    --text-main: #1a1f24;
+    --text-muted: #5a6570;
+    
+    /* Pop Colors - Data & Analytics Theme */
+    --pop-green: #10b981;
+    --pop-blue: #3b82f6;
+    --pop-yellow: #f59e0b;
+    --pop-red: #ef4444;
+    --pop-purple: #8b5cf6;
+    --pop-cyan: #06b6d4;
+
+    --border-color: #1a1f24;
+    --border-width: 3px;
+    --radius-md: 8px;
+    --transition: 0.2s ease-out;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  html { scroll-behavior: smooth; }
+
+  body {
+    background-color: var(--bg-paper);
+    background-image: 
+      linear-gradient(rgba(26, 31, 36, 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 31, 36, 0.06) 1px, transparent 1px);
+    background-size: 40px 40px;
+    color: var(--text-main);
+    font-family: 'Space Grotesk', sans-serif; 
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar-track { background: var(--bg-paper); border-left: var(--border-width) solid var(--border-color); }
+  ::-webkit-scrollbar-thumb { background: var(--pop-green); border: var(--border-width) solid var(--border-color); border-radius: 0px; }
+
+  .font-mono { font-family: 'Space Mono', monospace; }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 1.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 100;
+    background: rgba(244, 244, 240, 0.9);
+    backdrop-filter: blur(8px);
+    border-bottom: var(--border-width) solid var(--border-color);
+  }
+  .logo {
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-decoration: none;
+    color: var(--text-main);
+    letter-spacing: -1px;
+  }
+  .logo span {
+    color: var(--pop-green);
+    font-family: 'Space Mono', monospace;
+  }
+  .btn-primary {
+    background: var(--pop-yellow);
+    color: var(--text-main);
+    padding: 0.6rem 1.8rem;
+    border-radius: 100px;
+    text-decoration: none;
+    font-weight: 700;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0px var(--border-color);
+    transition: var(--transition);
+  }
+  .btn-primary:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
+  }
+
+  /* HERO */
+  .hero {
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 0 2rem;
+    margin-top: 5rem;
+  }
+  .hero h1 {
+    font-size: clamp(2.8rem, 5vw, 4.5rem);
+    line-height: 1.1;
+    font-weight: 700;
+    max-width: 900px;
+    margin-bottom: 1.5rem;
+  }
+  .hero h1 span { 
+    background: var(--pop-green);
+    color: #fff;
+    padding: 0 15px;
+    display: inline-block;
+    transform: rotate(-2deg);
+    border-radius: 4px;
+    border: var(--border-width) solid var(--border-color);
+    font-family: 'Space Mono', monospace;
+  }
+  .hero p {
+    font-size: 1.2rem;
+    color: var(--text-muted);
+    max-width: 600px;
+    margin-bottom: 2rem;
+    font-weight: 600;
+  }
+
+  /* PORTFOLIO SECTION */
+  .portfolio {
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 2rem 3rem 8rem;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 5rem;
+    justify-content: center;
+  }
+  .filter-btn {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    cursor: pointer;
+    box-shadow: 4px 4px 0px var(--border-color);
+    transition: var(--transition);
+  }
+  .filter-btn:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0px var(--border-color);
+    background: #e2e8f0;
+  }
+  .filter-btn.active {
+    background: var(--pop-blue);
+    color: #fff;
+    border-color: var(--border-color);
+  }
+
+  /* GRID */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 4.5rem 3.5rem;
+  }
+
+  /* QUIRKY CARD STYLE */
+  .card {
+    background: var(--card-bg);
+    border: var(--border-width) solid var(--border-color);
+    border-radius: var(--radius-md);
+    position: relative;
+    cursor: pointer;
+    transition: var(--transition);
+    display: flex;
+    flex-direction: column;
+    /* Kartu di-set sedikit lebih tinggi karena ada gambar */
+    min-height: 500px; 
+  }
+
+  /* IMAGE PREVIEW AREA */
+  .card-image {
+    height: 200px;
+    width: 100%;
+    border-bottom: var(--border-width) solid var(--border-color);
+    border-radius: calc(var(--radius-md) - 3px) calc(var(--radius-md) - 3px) 0 0;
+    background-size: cover;
+    background-position: top center;
+    background-color: #e2e8f0; /* Fallback color */
+    position: relative;
+  }
+
+  /* Bayangan Solid (Diubah agar support kartu tak terbatas) */
+  .card:nth-child(6n+1) { box-shadow: 12px 12px 0px var(--pop-green); }
+  .card:nth-child(6n+2) { box-shadow: 12px 12px 0px var(--pop-blue); }
+  .card:nth-child(6n+3) { box-shadow: 12px 12px 0px var(--pop-yellow); }
+  .card:nth-child(6n+4) { box-shadow: 12px 12px 0px var(--pop-purple); }
+  .card:nth-child(6n+5) { box-shadow: 12px 12px 0px var(--pop-cyan); }
+  .card:nth-child(6n+0) { box-shadow: 12px 12px 0px var(--pop-red); }
+
+  .card:nth-child(odd) { transform: rotate(-1.5deg); }
+  .card:nth-child(even) { transform: rotate(1.5deg); }
+
+  .card:hover { transform: translate(-4px, -4px) rotate(0deg); }
+  .card:nth-child(6n+1):hover { box-shadow: 18px 18px 0px var(--pop-green); }
+  .card:nth-child(6n+2):hover { box-shadow: 18px 18px 0px var(--pop-blue); }
+  .card:nth-child(6n+3):hover { box-shadow: 18px 18px 0px var(--pop-yellow); }
+  .card:nth-child(6n+4):hover { box-shadow: 18px 18px 0px var(--pop-purple); }
+  .card:nth-child(6n+5):hover { box-shadow: 18px 18px 0px var(--pop-cyan); }
+  .card:nth-child(6n+0):hover { box-shadow: 18px 18px 0px var(--pop-red); }
+
+  /* Isi Kartu */
+  .card-content {
+    padding: 2rem 2rem 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+  .card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    padding: 4px 10px;
+    border-radius: 4px;
+    border: 2px solid var(--border-color);
+    background: #f1f5f9;
+    color: var(--text-main);
+    display: inline-block;
+  }
+  .card-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    margin-bottom: 0.8rem;
+    color: var(--text-main);
+  }
+  .card-desc {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  /* STICKER BADGE */
+  .sticker {
+    position: absolute;
+    /* Menaruh stiker di batas antara gambar dan luar border */
+    top: -15px; 
+    right: -20px;
+    background: #fff;
+    color: var(--text-main);
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 0.5rem 1rem;
+    border-radius: 0px; 
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 4px 4px 0px var(--border-color);
+    transform: rotate(10deg);
+    z-index: 10;
+  }
+  .card:nth-child(6n+1) .sticker { background: var(--pop-yellow); transform: rotate(10deg); }
+  .card:nth-child(6n+2) .sticker { background: var(--pop-cyan); transform: rotate(2deg); }
+  .card:nth-child(6n+3) .sticker { background: var(--pop-cyan); transform: rotate(-8deg); }
+  .card:nth-child(6n+4) .sticker { background: var(--pop-blue); transform: rotate(5deg); }
+  .card:nth-child(6n+5) .sticker { background: var(--pop-yellow); transform: rotate(10deg); }
+  .card:nth-child(6n+6) .sticker { background: var(--pop-yellow); transform: rotate(2deg); }
+  .card:nth-child(6n+7) .sticker { background: var(--pop-green); transform: rotate(-8deg); }
+  .card:nth-child(6n+8) .sticker { background: var(--pop-green); transform: rotate(5deg); }
+  .card:nth-child(6n+9) .sticker { background: var(--pop-green); transform: rotate(10deg); }
+  .card:nth-child(6n+10) .sticker { background: var(--pop-cyan); transform: rotate(2deg); }
+  .card:nth-child(6n+11) .sticker { background: var(--pop-red); transform: rotate(-8deg); }
+  .card:nth-child(6n+12) .sticker { background: var(--pop-red); transform: rotate(5deg); }
+
+  /* TOMBOL AKSI BAWAH (MENDUKUNG BUTTON DAN LINK/A) */
+  .card-actions {
+    display: flex;
+    flex-direction: row; /* Memaksa posisinya selalu bersebelahan */
+    justify-content: flex-start;
+    flex-wrap: nowrap; /* Mencegah tombol jatuh ke bawah */
+    gap: 10px;
+    padding: 1.2rem 1.5rem; /* Padding disesuaikan sedikit agar lega */
+    border-top: var(--border-width) solid var(--border-color);
+    background: #f8fafc;
+    border-radius: 0 0 calc(var(--radius-md) - 3px) calc(var(--radius-md) - 3px);
+  }
+  
+  /* Gaya ini menargetkan tag <button> dan tag <a> agar bentuknya sama persis */
+  .card-actions button,
+  .card-actions a.btn-action {
+    flex: 1; /* Trik agar kedua tombol otomatis berbagi lebar sama rata ke samping */
+    background: var(--card-bg);
+    color: var(--text-main);
+    border: 2px solid var(--border-color);
+    padding: 0.6rem 0.5rem; 
+    border-radius: 4px;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 0.75rem;
+    cursor: pointer;
+    box-shadow: 2px 2px 0px var(--border-color);
+    transition: var(--transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-decoration: none; /* Menghilangkan garis bawah browser */
+    white-space: nowrap; /* Memastikan teks tidak putus ke bawah */
+  }
+  
+  .card-actions button:hover,
+  .card-actions a.btn-action:hover {
+    transform: translate(2px, 2px);
+    box-shadow: 0px 0px 0px var(--border-color);
+    background: var(--pop-blue);
+    color: #fff;
+  }
+
+  /* CTA */
+  .cta {
+    background: var(--pop-green);
+    color: #fff;
+    padding: 6rem 2rem;
+    text-align: center;
+    margin: 4rem 0;
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 12px 12px 0px var(--border-color);
+  }
+  .cta h2 { 
+    font-size: clamp(2.2rem, 4vw, 3rem); 
+    margin-bottom: 1.5rem; 
+    font-weight: 700;
+  }
+  .btn-dark {
+    background: var(--card-bg);
+    color: var(--text-main);
+    padding: 1rem 2.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: 'Space Mono', monospace;
+    font-weight: 700;
+    font-size: 1rem;
+    border: var(--border-width) solid var(--border-color);
+    box-shadow: 6px 6px 0px var(--border-color);
+    display: inline-block;
+    transition: var(--transition);
+  }
+  .btn-dark:hover { 
+    transform: translate(3px, 3px);
+    box-shadow: 3px 3px 0px var(--border-color);
+    background: var(--pop-yellow);
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 3rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: var(--border-width) solid var(--border-color);
+    color: var(--text-main);
+    font-weight: 700;
+    background: #e2e8f0;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+  }
+
+  @media (max-width: 768px) {
+    nav, footer { padding: 1.5rem 2rem; }
+    .portfolio { padding: 2rem 1.5rem; }
+    .grid { grid-template-columns: 1fr; gap: 4rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a href="#" class="logo">Data<span>[Works]</span></a>
+    <a href="#contact" class="btn-primary">Connect()</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1>Mengubah <span>Raw Data</span><br>menjadi hal menarik.</h1>
+    <p>Saya merancang template pembelajaran, file praktik, dan menyusun model interaktif. Mengubah jutaan baris Excel menjadi *insights* visual yang mudah dipahami.</p>
+  </section>
+
+  <!-- PORTFOLIO -->
+  <section class="portfolio">
+    <!-- FILTER BAR -->
+    <div class="filter-bar" id="filterBar">
+      <button class="filter-btn active" data-filter="all">[ALL_PROJECTS]</button>
+      <button class="filter-btn" data-filter="RUMUS PENCARIAN">RUMUS PENCARIAN</button>
+      <button class="filter-btn" data-filter="RUMUS LOGIKA">RUMUS LOGIKA</button>
+      <button class="filter-btn" data-filter="RUMUS ARITMATIKA">RUMUS ARITMATIKA</button>
+      <button class="filter-btn" data-filter="ANALITIK">ANALITIK</button>
+      <button class="filter-btn" data-filter="GAMES EXCEL">GAMES EXCEL</button>
+    </div>
+
+    <!-- NEO-BRUTALIST DATA GRID -->
+    <div class="grid" id="portfolioGrid">
+      
+      <!-- CARD 1 -->
+      <div class="card" data-category="RUMUS LOGIKA">
+        <div class="sticker">RUMUS LOGIKA</div>
+        <!-- Tambahan Background Gambar -->
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1hLbb8_KG6SRHVsVIbV1mdMNm7c6GrUgV');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Excel #LogikaOperasi</div>
+          <h3 class="card-title">Logika Operator</h3>
+          <p class="card-desc">Logika Operator merupakan platform edukasi yang dirancang untuk memberikan pemahaman mengenai penggunaan operator logika dalam excel.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Logika-Operator/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1VSrUnrcBN17fDa1QTuq69GrpuoCg_1PZ/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 2 -->
+      <div class="card" data-category="RUMUS PENCARIAN">
+	<div class="sticker">RUMUS PENCARIAN</div>
+	<!-- Tambahan Background Gambar -->
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/15dbS_Q5_AU2d1ifeOh44wYTeEBOn1n_A');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Match #Index</div>
+          <h3 class="card-title">Fungsi Index Match</h3>
+          <p class="card-desc"> Mencari dan mengambil nilai dari suatu tabel data secara akurat dan fleksibel.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Index-Match/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1HZMssNHiz8dwhrDRpk7j3W-Pu1bKkL5a/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 3 -->
+      <div class="card" data-category="RUMUS PENCARIAN">
+        <div class="sticker">RUMUS PENCARIAN</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/13Dbn9PUY8TJbgo2Y1nqsFL3twDyvYaQ2');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Lookup</div>
+          <h3 class="card-title">Fungsi Lookup</h3>
+          <p class="card-desc">mencari sebuah nilai tertentu di dalam satu baris atau kolom, lalu mengambil nilai pasangannya dari baris atau kolom yang berbeda..</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Lookup/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1vQy37SgXdfPrXEY8pNI-bQwdZaX-GW0k/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 4 -->
+      <div class="card" data-category="ANALITIK">
+        <div class="sticker">ANALITIK</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/18iFYRv7JxVe0ngrb8TCZflRXL_spj6S2');"></div>
+        <div class="card-content">
+          <div class="card-tag">#DataViz #Pivot</div>
+          <h3 class="card-title">Pivot Table</h3>
+          <p class="card-desc">Fitur analisis data interaktif untuk meringkas, mengelompokkan, dan mengekstrak informasi dari kumpulan data mentah.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Pivot-Table/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1p0H5oLyKllp41lVtVujHqSzsWtlw4h10/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 5 -->
+      <div class="card" data-category="RUMUS LOGIKA">
+	<div class="sticker">RUMUS LOGIKA</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1sVYJiONju8ah5gu4Vpn67pljpakV8k_X'); background-position: center;"></div>
+        <div class="card-content">
+          <div class="card-tag">#logikaAND-OR #IF</div>
+          <h3 class="card-title">IF + AND - OR</h3>
+          <p class="card-desc">Rumus gabungan aplikasi Microsoft Excel yang digunakan untuk memeriksa beberapa pilihan logika sekaligus.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-IF-AND-OR/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1AmXsgnkkn8D3OMB9Xu2y6bs8bbZ8kZrz/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 6 -->
+      <div class="card" data-category="RUMUS LOGIKA">
+	<div class="sticker">RUMUS LOGIKA</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/18rB0jG7CNHF66t0hvGNia2_R_E1iUF8p');"></div>
+        <div class="card-content">
+          <div class="card-tag">#IF #WhatIf</div>
+          <h3 class="card-title">Fungsi IF</h3>
+          <p class="card-desc">Perintah pengkondisian bersyarat Fungsi logika yang meminta melakukan tindakan tertentu hanya jika suatu syarat terpenuhi.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-IF-Tunggal-Bertingkat/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1SM75x3S08fFMfJLje8vbqsDUURyG7Vt8/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 7 -->
+      <div class="card" data-category="RUMUS ARITMATIKA">
+	<div class="sticker">RUMUS ARITMATIKA</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/17vYF1bPDzBfgvvKxLeJ2OhUmTb23NGWn');"></div>
+        <div class="card-content">
+          <div class="card-tag">#SUMIF #COUNTIF</div>
+          <h3 class="card-title">Fungsi Matematika Lanjutan</h3>
+          <p class="card-desc">Pelajari bagaimana Excel mengeksekusi rumus bersyarat secara visual.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Matematika-Lanjutan/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1xBNItWvPQb4s6GPrMMloY7KzYiormcd9/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 8 -->
+      <div class="card" data-category="RUMUS ARITMATIKA">
+	<div class="sticker">RUMUS ARITMATIKA</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1qjYItXJemN3k9zoPTj9QTXMRIY9-5sqr');"></div>
+        <div class="card-content">
+          <div class="card-tag">#SUM #COUNT</div>
+          <h3 class="card-title">Fungsi Matematika Dasar</h3>
+          <p class="card-desc">Fungsi Matematika dasar yang sering ditemukan dan digunakan dalam Excel seperti SUM, COUNT, AVERAGE, MAX, MIN.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Matematika-Dasar/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/15v2FH0S9DmbRoEW6VJBdNLE9OYptoGbK/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 9 -->
+      <div class="card" data-category="RUMUS ARITMATIKA">
+	<div class="sticker">RUMUS ARITMATIKA</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1F66fxipDaCwZ8wET2mieulZ55GXS8IGE');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Trim #TextJoin</div>
+          <h3 class="card-title">Fungsi Text</h3>
+          <p class="card-desc">Fungsi yang membantu mengolah data text seperti Text Join, Concat, Trim, Propper, Upper, Lower.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Text/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1QsO5wOnQ5TntZzGPcs3q0q6YOBPuotzO/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 10 -->
+      <div class="card" data-category="RUMUS PENCARIAN">
+	<div class="sticker">RUMUS PENCARIAN</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1SgeNoN_HSXneqRFo2wsQSM5q_JGzaXwa');"></div>
+        <div class="card-content">
+          <div class="card-tag">#View #Hide</div>
+          <h3 class="card-title">Fungsi Filter </h3>
+          <p class="card-desc">Menampilkan data tertentu saja dan menyembunyikan data yang tidak diperlukan.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Rumus-Filter/" target="_blank" class="btn-action">[↗] Live View</a>
+          <a href="https://docs.google.com/spreadsheets/d/1ufofq3B842FIIp5HoMUHREhAjanM-Ysg/export" target="_blank" class="btn-action">[_] Template Praktik</a>
+        </div>
+      </div>
+
+      <!-- CARD 11 -->
+      <div class="card" data-category="GAMES EXCEL">
+	<div class="sticker">GAMES EXCEL</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1E4xEKDw-lmv6p2n9ASsspl0dYqn5Dpmb');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Games #Learning</div>
+          <h3 class="card-title">Game ABC 5 Excel</h3>
+          <p class="card-desc">Game pengetahuan seputar excel dengan format permainan seperti ABC 5 dasar.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Game-Excel-1/" target="_blank" class="btn-action">[↗] Live View</a>
+        </div>
+      </div>
+
+      <!-- CARD 12 -->
+      <div class="card" data-category="GAMES EXCEL">
+	<div class="sticker">GAMES EXCEL</div>
+        <div class="card-image" style="background-image: url('https://lh3.googleusercontent.com/d/1p18gzz2D401m2IQsC5V9sYS-ubMUeI2C');"></div>
+        <div class="card-content">
+          <div class="card-tag">#Games #Learning</div>
+          <h3 class="card-title">Game Tebak Gambar</h3>
+          <p class="card-desc">Game menjodohkan kartu bertema Excel. Uji ingatan dan pengetahuan.</p>
+        </div>
+        <div class="card-actions">
+          <a href="https://bayusite.github.io/Game-Excel-2/" target="_blank" class="btn-action">[↗] Live View</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta" id="contact">
+    <h2>Punya Data Berantakan yang Perlu Dirapikan?</h2>
+    <a href="https://bayusite.github.io/#contact/" target="_blank" class="btn-dark">Run() Kolaborasi 🚀</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div>© 2026 DATA[WORKS].</div>
+    <div>// NO MORE #REF! ERRORS.</div>
+  </footer>
+
+  <script>
+    // Logika Filtering Kartu Portofolio
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filterValue = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.9)';
+          
+          setTimeout(() => {
+            if (filterValue === 'all' || card.getAttribute('data-category') === filterValue) {
+              card.style.display = 'flex';
+              void card.offsetWidth; // Reflow
+              card.style.opacity = '1';
+              card.style.transform = ''; 
+            } else {
+              card.style.display = 'none';
+            }
+          }, 200);
+        });
+      });
+    });
+  </script>
+</body>
+</html>
